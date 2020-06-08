@@ -4,11 +4,11 @@ public class Tile {
     private boolean merged;
     private int value;
 
-    Tile(int val){
+    public Tile(int val){
         value =val;
     }
 
-    int getValue(){
+    public int getValue(){
         return value;
     }
     void setMerged(boolean m){

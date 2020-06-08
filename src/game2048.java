@@ -49,21 +49,81 @@ public class game2048 extends JPanel {
         drawGrid(g);
     }
     public void startGame(){
-
+        if(gamestate != State.running){
+            score =0;
+            highest =0;
+            gamestate = State.running;
+            tiles = new Tile[side][side];
+            addRandomTile();
+            addRandomTile();
+        }
     }
     void drawGrid(Graphics2D g){
+
         g.setColor(new Color(0xBBA));
         g.fillRoundRect(200,100,499,15,15,15);
 
-        g.setColor(new Color(0xBBA));
-        g.fillRoundRect(215,115,469,469,7,7);
+        if(gamestate == State.running){
+            for(int r=0; r<side; r++){
+                for(int c=0;c<side;c++){
+                    if(tiles[r][c] == null){
+                        g.setColor(new Color(0xBBA));
+                        g.fillRoundRect(215 + c * 121,115+r*121, 106,106,7,7);
+                    }
+                    else{
+                        drawTile(g,r,c);
+                    }
+                }
+            }
 
-        g.setColor(new Color(0xBBAa));
-        g.setFont(new Font("Arial", Font.BOLD, 128));
-        g.drawString("2048", 250,270);
-        g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("click to start ", 330,470);
-        g.drawString("use arrow keys to move tiles ", 310,530);
 
+        }
+
+        else {
+            g.setColor(new Color(0xBBA));
+            g.fillRoundRect(215, 115, 469, 469, 7, 7);
+
+            g.setColor(new Color(0xBBAa));
+            g.setFont(new Font("Arial", Font.BOLD, 128));
+            g.drawString("2048", 250, 270);
+            g.setFont(new Font("Arial", Font.BOLD, 20));
+            if(gamestate == State.won){
+                g.drawString("YOU ARE A WINNER", 390,350);
+            } else if(gamestate == State.over){
+                g.drawString("Gameover", 400,350);
+            }
+            g.drawString("click to start ", 330, 470);
+            g.drawString("use arrow keys to move tiles ", 310, 530);
+        }
     }
+    public void addRandomTile(){
+        int pos = rand.nextInt(side * side);
+        System.out.println(pos);
+        int row, col;
+        do {
+            pos =(pos +1) % (side * side);
+            row = pos /side;
+            col = pos % side;
+
+        } while(tiles[row][col] != null);
+
+        int val = rand.nextInt(10) == 0 ? 4 :2;
+        tiles[row][col] = new Tile(val);
+    };
+    public void drawTile(Graphics2D g, int r, int c){
+        int value = tiles[r][c].getValue();
+
+        g.setColor(new Color(0xBBAaa7));
+        g.fillRoundRect(215 + c*121, 115+r*121, 106,106,7,7);
+        String s = String.valueOf(value);
+        FontMetrics fm = g.getFontMetrics();
+        int asc = fm.getAscent();
+        int dec = fm.getDescent();
+
+        int x = 215 +c *121+(106-fm.stringWidth(s))/2;
+        int y = 115 +r *121+(asc+(106-(asc+dec))/2);
+        g.setColor(new Color(0xBBA237));
+        g.drawString(s, x,y);
+
+    };
 }
