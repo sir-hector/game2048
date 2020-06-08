@@ -2,12 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 public class game2048 extends JPanel {
+
+    enum state {
+        start, won, running, over
+    }
 
     final static int target = 2048;
     static int highest;
     static int score;
+
+    private Random rand = new Random();
 
 
     public game2048(){
