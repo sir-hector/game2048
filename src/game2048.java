@@ -37,7 +37,20 @@ public class game2048 extends JPanel {
         });
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
+                if(e.getKeyCode() == KeyEvent.VK_UP){
+                    moveUp();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    moveUp();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    moveUp();
+                }
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    moveUp();
+                }
+
+                ;
             }
         });
     }
@@ -126,4 +139,9 @@ public class game2048 extends JPanel {
         g.drawString(s, x,y);
 
     };
+
+    boolean moveUp(){
+        System.out.println("AAA");
+        return true;
+    }
 }
