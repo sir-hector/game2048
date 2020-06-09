@@ -1,4 +1,5 @@
 import model.tile.Tile;
+import model.Colour;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class game2048 extends JPanel {
+
 
     enum State {
         start, won, running, over
@@ -216,6 +218,7 @@ public class game2048 extends JPanel {
         }
 
         addRandomTile();
+        clearMerged();
         return moved;
     }
 
@@ -224,5 +227,15 @@ public class game2048 extends JPanel {
         boolean canMove = goUp() || goDown() || goLeft() || goRight();
         return canMove;
     }
+
+    public void clearMerged(){
+        for(Tile[] row : tiles)
+            for(Tile tile : row)
+                if(tile != null){
+                    tile.setMerged(false);
+                }
+
+    }
+
 
 }

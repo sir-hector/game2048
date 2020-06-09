@@ -11,7 +11,7 @@ public class Tile {
     public int getValue(){
         return value;
     }
-    void setMerged(boolean m){
+    public void setMerged(boolean m){
         merged =m;
     }
     public boolean canMergeWith(Tile other){
