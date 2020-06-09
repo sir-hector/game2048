@@ -38,19 +38,19 @@ public class game2048 extends JPanel {
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_UP){
-                    moveUp();
+                    goUp();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    moveUp();
+                    goDown();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    moveUp();
+                    goLeft();
                 }
                 if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    moveUp();
+                    goRight();
                 }
+                repaint();
 
-                ;
             }
         });
     }
@@ -106,12 +106,12 @@ public class game2048 extends JPanel {
                 g.drawString("Gameover", 400,350);
             }
             g.drawString("click to start ", 330, 470);
+            g.drawString("2048 s20687", 100, 100);
             g.drawString("use arrow keys to move tiles ", 310, 530);
         }
     }
     public void addRandomTile(){
         int pos = rand.nextInt(side * side);
-        System.out.println(pos);
         int row, col;
         do {
             pos =(pos +1) % (side * side);
@@ -140,8 +140,89 @@ public class game2048 extends JPanel {
 
     };
 
-    boolean moveUp(){
-        System.out.println("AAA");
-        return true;
+    boolean goUp(){
+        return move(0,-1,0);
+
     }
+    boolean goDown(){
+        return move(0,1,side*side-1);
+
+    }
+    boolean goRight(){
+        return move(1,0,side*side-1);
+    }
+    boolean goLeft(){
+        return move(-1,0,0);
+    }
+
+    private boolean move (int moveX, int moveY, int a){
+        boolean moved =false;
+        for(int i = 0; i< side*side; i++){
+            int j = Math.abs(a -i);
+
+            int row = j/side;
+            int col = j%side;
+            System.out.println(row);
+            System.out.println(col);
+
+            if(tiles[row][col] ==null)
+                continue;
+
+            int nextTileRow = row + moveY;
+            int nextTileCol = col + moveX;
+
+            // dopoki nie wyhcodzimy poza obrys planszy
+            while(nextTileRow >=0 && nextTileRow <side && nextTileCol >=0 && nextTileCol <side){
+                // zapamietanie obecnego kafelka
+                Tile currentTile = tiles[row][col];
+                // nastepny kafelek - uwzglednienie przesuniecie
+                Tile nextTile = tiles[nextTileRow][nextTileCol];
+
+                // sprawdzanie czy nastepny kafelek jest pusty
+                if(nextTile == null){
+
+                    // przypisanie do nowego kafelka/ starego
+                    tiles[nextTileRow][nextTileCol] = currentTile;
+                    //wyzrowanie;
+                    tiles[row][col]= null;
+
+                    // kolejny do sprawdzenia w petli while
+                    row = nextTileRow;
+                    col = nextTileCol;
+                    nextTileRow += moveY;
+                    nextTileCol += moveX;
+
+                    moved = true;
+
+                }
+                // sprawdzenie czy moze sie polaczyc z innym
+                else if (nextTile.canMergeWith(currentTile)){
+                    int value = nextTile.mergeWith(currentTile);
+                    score += value;
+                    // zerowanie poprzedniego
+                    tiles[row][col] = null;
+                    moved = true;
+                    break;
+                } else{
+                    break;
+                }
+
+
+            }
+
+
+
+
+        }
+
+        addRandomTile();
+        return moved;
+    }
+
+    // sprawdzanie mozliwosci ruchu
+    boolean hasMoves(){
+        boolean canMove = goUp() || goDown() || goLeft() || goRight();
+        return canMove;
+    }
+
 }

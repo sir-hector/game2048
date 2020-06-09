@@ -14,10 +14,10 @@ public class Tile {
     void setMerged(boolean m){
         merged =m;
     }
-    boolean canMergeWith(Tile other){
+    public boolean canMergeWith(Tile other){
         return !merged && other!= null && !other.merged && value == other.getValue();
     }
-    int mergeWith(Tile other){
+    public int mergeWith(Tile other){
         if (canMergeWith(other)){
             value *= 2;
             merged = true;
