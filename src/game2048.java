@@ -202,6 +202,10 @@ public class game2048 extends JPanel {
                 }
                 // sprawdzenie czy moze sie polaczyc z innym
                 else if (nextTile.canMergeWith(currentTile)){
+
+                    if(checkingAvaiableMoves){
+                        return  true;
+                    }
                     int value = nextTile.mergeWith(currentTile);
                     score += value;
                     // zerowanie poprzedniego
@@ -224,14 +228,16 @@ public class game2048 extends JPanel {
 
         }
 
-        //dodanie warunków brzegowych dla wygranej i przegranej
-
+        //dodanie warunków brzegowych dla wygranej i przegrane
 
 
         if (moved) {
             if (highest < target) {
                 clearMerged();
                 addRandomTile();
+                if(!hasMoves()){
+                    gamestate =State.over;
+                }
 
             } else if (highest == target)
                 gamestate = State.won;
@@ -240,8 +246,10 @@ public class game2048 extends JPanel {
     }
 
     // sprawdzanie mozliwosci ruchu
-    boolean movesAvailable() {
+    boolean hasMoves() {
+        checkingAvaiableMoves = true;
         boolean hasMoves = goUp() || goDown() || goLeft() || goRight();
+        checkingAvaiableMoves = false;
         return hasMoves;
     }
 
