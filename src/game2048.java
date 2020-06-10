@@ -192,6 +192,9 @@ public class game2048 extends JPanel {
 
                 // sprawdzanie czy nastepny kafelek jest pusty
                 if(nextTile == null){
+                    if(checkingAvaiableMoves){
+                        return  true;
+                    }
 
                     // przypisanie do nowego kafelka/ starego
                     tiles[nextTileRow][nextTileCol] = currentTile;
@@ -220,8 +223,8 @@ public class game2048 extends JPanel {
 
                     // ustawianie wyniku
 
-                    if(score > highest){
-                        highest = score;
+                    if(value > highest){
+                        highest = value;
                     }
                     moved = true;
                     break;
@@ -242,9 +245,9 @@ public class game2048 extends JPanel {
             if (highest < target) {
                 clearMerged();
                 addRandomTile();
-//                if(!hasMoves()){
-//                    gamestate =State.over;
-//                }
+                    if(!hasMoves()){
+                  gamestate =State.over;
+               }
 
             } else if (highest == target)
                 gamestate = State.won;
