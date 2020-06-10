@@ -78,6 +78,7 @@ public class game2048 extends JPanel {
 
         g.setColor(Colour.getBoardColor(2));
         g.fillRoundRect(200,100,499,499,15,15);
+        drawResult(g);
 
         if(gamestate == State.running){
             for(int r=0; r<side; r++){
@@ -112,11 +113,17 @@ public class game2048 extends JPanel {
             g.setColor(Colour.getBoardColor(16));
             g.drawString("CLICK TO START ", 370, 470);
             g.setColor(Colour.getBoardColor(16));
-            g.drawString("game: 2048 author: s20687", 10, 30);
-            g.setColor(Colour.getBoardColor(16));
+
             g.drawString("USE ARROW KEYS TO MOVE TILES", 280, 530);
         }
     }
+    void drawResult(Graphics2D g) {
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.setColor(Colour.getBoardColor(16));
+        g.drawString(Integer.toString(score) ,480, 30);
+        g.drawString("result:", 400, 30);
+    }
+
     public void addRandomTile(){
         int pos = rand.nextInt(side * side);
         int row, col;
@@ -235,9 +242,9 @@ public class game2048 extends JPanel {
             if (highest < target) {
                 clearMerged();
                 addRandomTile();
-                if(!hasMoves()){
-                    gamestate =State.over;
-                }
+//                if(!hasMoves()){
+//                    gamestate =State.over;
+//                }
 
             } else if (highest == target)
                 gamestate = State.won;
