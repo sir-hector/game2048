@@ -77,7 +77,7 @@ public class game2048 extends JPanel {
     void drawGrid(Graphics2D g){
 
         g.setColor(Colour.getBoardColor(2));
-        g.fillRoundRect(200,100,499,15,15,15);
+        g.fillRoundRect(200,100,499,499,15,15);
 
         if(gamestate == State.running){
             for(int r=0; r<side; r++){
@@ -91,27 +91,30 @@ public class game2048 extends JPanel {
                     }
                 }
             }
-
-
         }
 
         else {
-            g.setColor(Colour.getBoardColor(4));
+            g.setColor(Colour.getBoardColor(3));
             g.fillRoundRect(215, 115, 469, 469, 7, 7);
-
-            g.setColor(Colour.getBoardColor(2));
+            g.setColor(Colour.getBoardColor(16));
             g.setFont(new Font("Arial", Font.BOLD, 128));
-            g.drawString("2048", 250, 270);
+            g.drawString("2048", 310, 270);
             g.setFont(new Font("Arial", Font.BOLD, 20));
+
             if(gamestate == State.won){
-                g.drawString("YOU ARE A WINNER", 390,350);
+                g.setColor(Colour.getTileColor(16));
+                g.drawString("YOU ARE A WINNER", 400,350);
             } else if(gamestate == State.over){
-                g.drawString("Gameover", 400,350);
+                g.setColor(Colour.getTileColor(16));
+                g.drawString("Gameover", 360,350);
             }
-            g.setColor(Colour.getBoardColor(2));
-            g.drawString("click to start ", 330, 470);
-            g.drawString("2048 s20687", 100, 100);
-            g.drawString("use arrow keys to move tiles ", 310, 530);
+
+            g.setColor(Colour.getBoardColor(16));
+            g.drawString("CLICK TO START ", 370, 470);
+            g.setColor(Colour.getBoardColor(16));
+            g.drawString("game: 2048 author: s20687", 10, 30);
+            g.setColor(Colour.getBoardColor(16));
+            g.drawString("USE ARROW KEYS TO MOVE TILES", 280, 530);
         }
     }
     public void addRandomTile(){
@@ -124,7 +127,7 @@ public class game2048 extends JPanel {
 
         } while(tiles[row][col] != null);
 
-        int val = rand.nextInt(10) == 0 ? 4 :2;
+        int val = rand.nextInt(10) == 0 ? 4 : 2;
         tiles[row][col] = new Tile(val);
     };
     public void drawTile(Graphics2D g, int r, int c){
@@ -166,8 +169,6 @@ public class game2048 extends JPanel {
 
             int row = j/side;
             int col = j%side;
-            System.out.println(row);
-            System.out.println(col);
 
             if(tiles[row][col] ==null)
                 continue;
@@ -187,7 +188,7 @@ public class game2048 extends JPanel {
 
                     // przypisanie do nowego kafelka/ starego
                     tiles[nextTileRow][nextTileCol] = currentTile;
-                    //wyzrowanie;
+                    //wyzerowanie;
                     tiles[row][col]= null;
 
                     // kolejny do sprawdzenia w petli while
@@ -205,6 +206,12 @@ public class game2048 extends JPanel {
                     score += value;
                     // zerowanie poprzedniego
                     tiles[row][col] = null;
+
+                    // ustawianie wyniku
+
+                    if(score > highest){
+                        highest = score;
+                    }
                     moved = true;
                     break;
                 } else{
@@ -215,19 +222,27 @@ public class game2048 extends JPanel {
             }
 
 
-
-
         }
 
-        addRandomTile();
-        clearMerged();
+        //dodanie warunków brzegowych dla wygranej i przegranej
+
+
+
+        if (moved) {
+            if (highest < target) {
+                clearMerged();
+                addRandomTile();
+
+            } else if (highest == target)
+                gamestate = State.won;
+        }
         return moved;
     }
 
     // sprawdzanie mozliwosci ruchu
-    boolean hasMoves(){
-        boolean canMove = goUp() || goDown() || goLeft() || goRight();
-        return canMove;
+    boolean movesAvailable() {
+        boolean hasMoves = goUp() || goDown() || goLeft() || goRight();
+        return hasMoves;
     }
 
     public void clearMerged(){

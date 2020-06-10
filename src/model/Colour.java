@@ -12,6 +12,7 @@ public class Colour  {
             case 2: return new Color(0xBBADA0);
             case 4: return new Color(0xCDC1B4);
             case 8: return new Color(0xFFEBCD);
+            case 16: return new Color(0x765A4A);
         }
 
         return new Color(0xcdc1b4);
