@@ -76,14 +76,14 @@ public class game2048 extends JPanel {
     }
     void drawGrid(Graphics2D g){
 
-        g.setColor(new Color(0xBBA));
+        g.setColor(Colour.getBoardColor(2));
         g.fillRoundRect(200,100,499,15,15,15);
 
         if(gamestate == State.running){
             for(int r=0; r<side; r++){
                 for(int c=0;c<side;c++){
                     if(tiles[r][c] == null){
-                        g.setColor(new Color(0xBBA));
+                        g.setColor(Colour.getBoardColor(4));
                         g.fillRoundRect(215 + c * 121,115+r*121, 106,106,7,7);
                     }
                     else{
@@ -96,10 +96,10 @@ public class game2048 extends JPanel {
         }
 
         else {
-            g.setColor(new Color(0xBBA));
+            g.setColor(Colour.getBoardColor(4));
             g.fillRoundRect(215, 115, 469, 469, 7, 7);
 
-            g.setColor(new Color(0xBBAa));
+            g.setColor(Colour.getBoardColor(2));
             g.setFont(new Font("Arial", Font.BOLD, 128));
             g.drawString("2048", 250, 270);
             g.setFont(new Font("Arial", Font.BOLD, 20));
@@ -108,6 +108,7 @@ public class game2048 extends JPanel {
             } else if(gamestate == State.over){
                 g.drawString("Gameover", 400,350);
             }
+            g.setColor(Colour.getBoardColor(2));
             g.drawString("click to start ", 330, 470);
             g.drawString("2048 s20687", 100, 100);
             g.drawString("use arrow keys to move tiles ", 310, 530);
@@ -138,7 +139,7 @@ public class game2048 extends JPanel {
 
         int x = 215 +c *121+(106-fm.stringWidth(s))/2;
         int y = 115 +r *121+(asc+(106-(asc+dec))/2);
-        g.setColor(new Color(0xBBA237));
+        g.setColor(Colour.getStringColor(value));
         g.drawString(s, x,y);
 
     };
