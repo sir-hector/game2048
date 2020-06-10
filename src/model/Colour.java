@@ -7,16 +7,17 @@ import java.util.TreeMap;
 
 public class Colour  {
 
-    public static HashMap<String, Color> COLOURS = new HashMap<String, Color> ();
 
-    public static void entryColor(String name, int color){
-        COLOURS.put(name, new Color(color));
+    public static Color getTileColor(int value){
+        switch(value){
+            case 2: return new Color(0xeee4da);
+            case 4: return new Color(0xede0c8);
+            case 8: return new Color(0xf2b179);
+        }
+
+        return new Color(0xcdc1b4);
     }
-    public static Color getColorScheme(String name){
-        Color color;
-        color = COLOURS.get(name);
-        return color;
-    }
+
 
 }
 

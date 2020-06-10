@@ -1,6 +1,7 @@
 import model.tile.Tile;
 import model.Colour;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -128,7 +129,7 @@ public class game2048 extends JPanel {
     public void drawTile(Graphics2D g, int r, int c){
         int value = tiles[r][c].getValue();
 
-        g.setColor(new Color(0xBBAaa7));
+        g.setColor(Colour.getTileColor(value));
         g.fillRoundRect(215 + c*121, 115+r*121, 106,106,7,7);
         String s = String.valueOf(value);
         FontMetrics fm = g.getFontMetrics();
