@@ -1,3 +1,4 @@
+import model.Buttons;
 import model.tile.Tile;
 import model.Colour;
 
@@ -15,7 +16,7 @@ public class game2048 extends JPanel {
         start, won, running, over
     }
 
-    final static int target = 2048;
+    final static int target = 8;
     static int highest;
     static int score;
 
@@ -24,6 +25,7 @@ public class game2048 extends JPanel {
     private int side =4;
     private State gamestate = State.start;
     private boolean checkingAvaiableMoves;
+    private Buttons saveButton = new Buttons("Save");
 
     public game2048(){
         setPreferredSize(new Dimension(900, 700));
@@ -103,13 +105,15 @@ public class game2048 extends JPanel {
             g.setFont(new Font("Arial", Font.BOLD, 20));
 
             if(gamestate == State.won){
-                g.setColor(Colour.getTileColor(16));
-                g.drawString("YOU ARE A WINNER", 400,350);
+                g.setColor(Colour.getTileColor(64));
+                g.setFont(new Font("Arial", Font.BOLD, 40));
+                g.drawString("YOU WIN", 365,350);
             } else if(gamestate == State.over){
+                g.setFont(new Font("Arial", Font.BOLD, 20));
                 g.setColor(Colour.getTileColor(16));
                 g.drawString("Gameover", 360,350);
             }
-
+            g.setFont(new Font("Arial", Font.BOLD, 20));
             g.setColor(Colour.getBoardColor(16));
             g.drawString("CLICK TO START ", 370, 470);
             g.setColor(Colour.getBoardColor(16));
