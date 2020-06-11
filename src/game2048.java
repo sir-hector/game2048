@@ -16,7 +16,7 @@ public class game2048 extends JPanel {
         start, won, running, over
     }
 
-    final static int target = 2048;
+    final static int target = 16;
     static int highest;
     static int score;
 
@@ -25,7 +25,15 @@ public class game2048 extends JPanel {
     private int side =4;
     private State gamestate = State.start;
     private boolean checkingAvaiableMoves;
+
+    long tStart;
+    long tEnd;
+    long tDelta;
+    double elapsedSeconds;
+    double timeBonus;
     private Buttons saveButton = new Buttons("Save");
+
+
 
     public game2048(){
         setPreferredSize(new Dimension(900, 700));
@@ -72,6 +80,7 @@ public class game2048 extends JPanel {
             highest =0;
             gamestate = State.running;
             tiles = new Tile[side][side];
+            tStart = System.currentTimeMillis();
             addRandomTile();
             addRandomTile();
         }
@@ -80,7 +89,6 @@ public class game2048 extends JPanel {
 
         g.setColor(Colour.getBoardColor(2));
         g.fillRoundRect(200,100,499,499,15,15);
-        drawResult(g);
 
         if(gamestate == State.running){
             for(int r=0; r<side; r++){
@@ -108,6 +116,9 @@ public class game2048 extends JPanel {
                 g.setColor(Colour.getTileColor(64));
                 g.setFont(new Font("Arial", Font.BOLD, 40));
                 g.drawString("YOU WIN", 365,350);
+                g.setFont(new Font("Arial", Font.BOLD, 20));
+                drawResult(g);
+
             } else if(gamestate == State.over){
                 g.setFont(new Font("Arial", Font.BOLD, 20));
                 g.setColor(Colour.getTileColor(16));
@@ -126,6 +137,11 @@ public class game2048 extends JPanel {
         g.setColor(Colour.getBoardColor(16));
         g.drawString(Integer.toString(score) ,480, 30);
         g.drawString("result:", 400, 30);
+        g.drawString("your time:", 250, 60);
+        g.drawString(Double.toString(elapsedSeconds) ,350, 60);
+        g.drawString("Time bonus:", 440, 60);
+        g.drawString(Double.toString(timeBonus) ,570, 60);
+
     }
 
     public void addRandomTile(){
@@ -253,8 +269,13 @@ public class game2048 extends JPanel {
                   gamestate =State.over;
                }
 
-            } else if (highest == target)
+            } else if (highest == target) {
                 gamestate = State.won;
+                tEnd = System.currentTimeMillis();
+                tDelta = tEnd - tStart;
+                elapsedSeconds = tDelta / 1000.0;
+                timeBonus = 360 - elapsedSeconds;
+            }
         }
         return moved;
     }
