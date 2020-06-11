@@ -16,7 +16,7 @@ public class game2048 extends JPanel {
         start, won, running, over
     }
 
-    final static int target = 8;
+    final static int target = 2048;
     static int highest;
     static int score;
 
