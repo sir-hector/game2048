@@ -3,6 +3,11 @@ import model.Buttons;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Karol Kraus s20687
+ * @version 1.0
+ */
+
 public class Game {
     public static void main(String[] args) {
         JFrame game = new JFrame();

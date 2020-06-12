@@ -16,13 +16,13 @@ public class game2048 extends JPanel {
         start, won, running, over
     }
 
-    final static int target = 16;
+    final static int target = 2048;
     static int highest;
     static int score;
 
     private Random rand = new Random();
     private Tile[][] tiles;
-    private int side =4;
+    private final int side =4;
     private State gamestate = State.start;
     private boolean checkingAvaiableMoves;
 
@@ -34,19 +34,12 @@ public class game2048 extends JPanel {
 
 
 
-
-
     public game2048(){
         setPreferredSize(new Dimension(900, 700));
         setBackground(new Color(0XFAF8EF));
         setFont(new Font("SandSerif", Font.BOLD,48));
         setFocusable(true);
-        Buttons saveGame = new Buttons("Save Game");
-        Buttons laodGame = new Buttons("Save Game");
-        saveGame.setLocation(500,200);
-        add(saveGame);
-        add(laodGame);
-        this.setFocusable(true);
+
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -158,12 +151,11 @@ public class game2048 extends JPanel {
             pos =(pos +1) % (side * side);
             row = pos /side;
             col = pos % side;
-
         } while(tiles[row][col] != null);
 
         int val = rand.nextInt(10) == 0 ? 4 : 2;
         tiles[row][col] = new Tile(val);
-    };
+    }
     public void drawTile(Graphics2D g, int r, int c){
         int value = tiles[r][c].getValue();
 
@@ -179,7 +171,7 @@ public class game2048 extends JPanel {
         g.setColor(Colour.getStringColor(value));
         g.drawString(s, x,y);
 
-    };
+    }
 
     boolean goUp(){
         return move(0,-1,0);
@@ -282,7 +274,6 @@ public class game2048 extends JPanel {
                 tDelta = tEnd - tStart;
                 elapsedSeconds = tDelta / 1000.0;
                 timeBonus = 360 - elapsedSeconds;
-                
             }
         }
         return moved;
