@@ -31,7 +31,8 @@ public class game2048 extends JPanel {
     long tDelta;
     double elapsedSeconds;
     double timeBonus;
-    private Buttons saveButton = new Buttons("Save");
+
+
 
 
 
@@ -40,6 +41,12 @@ public class game2048 extends JPanel {
         setBackground(new Color(0XFAF8EF));
         setFont(new Font("SandSerif", Font.BOLD,48));
         setFocusable(true);
+        Buttons saveGame = new Buttons("Save Game");
+        Buttons laodGame = new Buttons("Save Game");
+        saveGame.setLocation(500,200);
+        add(saveGame);
+        add(laodGame);
+        this.setFocusable(true);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -275,6 +282,7 @@ public class game2048 extends JPanel {
                 tDelta = tEnd - tStart;
                 elapsedSeconds = tDelta / 1000.0;
                 timeBonus = 360 - elapsedSeconds;
+                
             }
         }
         return moved;
