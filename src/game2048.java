@@ -32,14 +32,16 @@ public class game2048 extends JPanel {
     double elapsedSeconds;
     double timeBonus;
 
-
+    /**
+     *  Constructor of main class
+     *
+     */
 
     public game2048(){
         setPreferredSize(new Dimension(900, 700));
         setBackground(new Color(0XFAF8EF));
         setFont(new Font("SandSerif", Font.BOLD,48));
         setFocusable(true);
-
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -67,13 +69,20 @@ public class game2048 extends JPanel {
             }
         });
     }
+    /**
+     *  Override method paintComponet from JComponent
+     */
+    @Override
     public void paintComponent(Graphics g1){
         super.paintComponent(g1);
         Graphics2D g = (Graphics2D) g1;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
         drawGrid(g);
     }
+    /**
+     *  This method start the game - setting all variables to basic value and create a new Tile
+     *  Staring counting the time and create two first random tiles
+     */
     public void startGame(){
         if(gamestate != State.running){
             score =0;
@@ -85,6 +94,11 @@ public class game2048 extends JPanel {
             addRandomTile();
         }
     }
+    /**
+     *  Method for drawing a grid.
+     *  Drawing informations depending on state of game
+     *  If the game is running drawing also a tille for first two created
+     */
     void drawGrid(Graphics2D g){
 
         g.setColor(Colour.getBoardColor(2));
@@ -132,6 +146,9 @@ public class game2048 extends JPanel {
             g.drawString("USE ARROW KEYS TO MOVE TILES", 280, 530);
         }
     }
+    /**
+     *  Method for drawing a  result
+     */
     void drawResult(Graphics2D g) {
         g.setFont(new Font("Arial", Font.BOLD, 20));
         g.setColor(Colour.getBoardColor(16));
@@ -143,6 +160,12 @@ public class game2048 extends JPanel {
         g.drawString(Double.toString(timeBonus) ,570, 60);
 
     }
+
+    /**
+     *  Method for generating a new random Tile
+     *  Generating a random int from 0 to 16, divid and modulo provide as full matrix of our tiles
+     *  new value is always 2 or 4
+     */
 
     public void addRandomTile(){
         int pos = rand.nextInt(side * side);
@@ -156,16 +179,23 @@ public class game2048 extends JPanel {
         int val = rand.nextInt(10) == 0 ? 4 : 2;
         tiles[row][col] = new Tile(val);
     }
+
+    /**
+     *  Method for drawing a Tile
+     * @param r - is the row
+     * @param c - is the column
+     *
+     * Draw also a value in the center of tile
+     */
     public void drawTile(Graphics2D g, int r, int c){
         int value = tiles[r][c].getValue();
 
         g.setColor(Colour.getTileColor(value));
-        g.fillRoundRect(215 + c*121, 115+r*121, 106,106,7,7);
+        g.fillRoundRect(215 + c*121, 115+r*121, 107,107,7,7);
         String s = String.valueOf(value);
         FontMetrics fm = g.getFontMetrics();
         int asc = fm.getAscent();
         int dec = fm.getDescent();
-
         int x = 215 +c *121+(106-fm.stringWidth(s))/2;
         int y = 115 +r *121+(asc+(106-(asc+dec))/2);
         g.setColor(Colour.getStringColor(value));
@@ -173,20 +203,47 @@ public class game2048 extends JPanel {
 
     }
 
+    /**
+     *  Method for moving tiles up
+     * @return the callback of function move
+     */
+
     boolean goUp(){
         return move(0,-1,0);
-
     }
+    /**
+     *  Method for moving tile down
+     * @return the callback of function move
+     */
     boolean goDown(){
         return move(0,1,side*side-1);
-
     }
+    /**
+     *  Method for moving tile right
+     * @return the callback of function move
+     */
     boolean goRight(){
         return move(1,0,side*side-1);
     }
+    /**
+     *  Method for moving tile left
+     * @return the callback of function move
+     */
     boolean goLeft(){
         return move(-1,0,0);
     }
+
+    /**
+     *  Method for moving tiles
+     * @param moveX - move right or left(1,-1) - 0 for moving up and down
+     * @param moveY - move up or down(1,-1) - 0 for moving right and left
+     * @param a
+     * @return true if the moved is done or false if cant
+     *
+     * checking if next tile can be marged - double the value
+     * checking possible moves, with no other opction setting game state to over
+     * if we match the final target setting game state to win
+     */
 
     private boolean move (int moveX, int moveY, int a){
         boolean moved =false;
@@ -265,7 +322,7 @@ public class game2048 extends JPanel {
                 clearMerged();
                 addRandomTile();
                     if(!hasMoves()){
-                  gamestate =State.over;
+                    gamestate =State.over;
                }
 
             } else if (highest == target) {
@@ -279,14 +336,19 @@ public class game2048 extends JPanel {
         return moved;
     }
 
-    // sprawdzanie mozliwosci ruchu
+    /**
+     *  Method for checking avaiable moves
+     * @return true if moves are posible
+     */
     boolean hasMoves() {
         checkingAvaiableMoves = true;
         boolean hasMoves = goUp() || goDown() || goLeft() || goRight();
         checkingAvaiableMoves = false;
         return hasMoves;
     }
-
+    /**
+     *  Method setting marged to tile after each of our moves
+     */
     public void clearMerged(){
         for(Tile[] row : tiles)
             for(Tile tile : row)
