@@ -78,6 +78,10 @@ public class game2048 extends JPanel {
         Graphics2D g = (Graphics2D) g1;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         drawGrid(g);
+        Buttons b1 = new Buttons("SAVE",600,600,100,50);
+        Buttons b2 = new Buttons("LOAD",500,600,100,50);
+        add(b1);
+        add(b2);
     }
     /**
      *  This method start the game - setting all variables to basic value and create a new Tile
@@ -134,9 +138,9 @@ public class game2048 extends JPanel {
                 drawResult(g);
 
             } else if(gamestate == State.over){
-                g.setFont(new Font("Arial", Font.BOLD, 20));
-                g.setColor(Colour.getTileColor(16));
-                g.drawString("Gameover", 360,350);
+                g.setFont(new Font("Arial", Font.BOLD, 64));
+                g.setColor(Colour.getTileColor(64));
+                g.drawString("Gameover", 290,350);
             }
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.setColor(Colour.getBoardColor(16));

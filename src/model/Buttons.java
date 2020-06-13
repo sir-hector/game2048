@@ -8,17 +8,14 @@ import java.awt.event.MouseMotionListener;
 
 public class Buttons extends JButton {
 
-    public Buttons(String text){
+    public Buttons(String text, int x, int y, int width, int height){
         super(text);
-        setPreferredSize(new Dimension(100,100));
-
-        this.setFocusable(false);
-    }
-
-    @Override
-    public synchronized void addMouseMotionListener(MouseMotionListener l) {
-        super.addMouseMotionListener(l);
+        setBounds(x,y,width,height);
+        setBackground(Colour.getTileColor(4));
+        setFont(new Font("Arial", Font.BOLD, 20));
 
 
     }
+
+
 }

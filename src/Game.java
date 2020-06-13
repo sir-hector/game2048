@@ -9,7 +9,7 @@ import java.awt.*;
  */
 
 public class Game {
-    public static void main(String[] args) {
+    public static void main(String[]  args) {
         JFrame game = new JFrame();
         game.setTitle("2048");
         game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
