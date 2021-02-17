@@ -15,17 +15,14 @@ public class game2048 extends JPanel {
     enum State {
         start, won, running, over
     }
-
     final static int target = 2048;
     static int highest;
     static int score;
-
     private Random rand = new Random();
     private Tile[][] tiles;
     private final int side =4;
     private State gamestate = State.start;
     private boolean checkingAvaiableMoves;
-
     long tStart;
     long tEnd;
     long tDelta;
@@ -114,6 +111,7 @@ public class game2048 extends JPanel {
                     if(tiles[r][c] == null){
                         g.setColor(Colour.getBoardColor(4));
                         g.fillRoundRect(215 + c * 121,115+r*121, 106,106,7,7);
+
                     }
                     else{
                         drawTile(g,r,c);

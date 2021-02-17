@@ -13,8 +13,6 @@ public class Buttons extends JButton {
         setBounds(x,y,width,height);
         setBackground(Colour.getTileColor(4));
         setFont(new Font("Arial", Font.BOLD, 20));
-
-
     }
 
 
